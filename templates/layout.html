@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock title %}</title>
+        <link rel="stylesheet" href="/static/styles.css">
+        <script src="/static/util.js"></script>
+    </head>
+    <body>
+        <h1 class="main-header fs-1 fw-bolder">{{ self.title() }}</h1>
+        {% block body %}{% endblock body %}
+        <script src="/static/problems.js"></script>
+        <script src="/static/handler.js"></script>
+        <script>
+            function restart() {
+                if (is_correct()) {
+                    start_problem({{ self.topic() }});
+                    answerInput.value = "";
+                }
+            }
+            start_problem({% block topic %}{% endblock topic %});
+            submitButton.addEventListener('click', restart);
+
+            answerInput.addEventListener('keypress', (e) => {
+                if (e.keyCode == 13) {
+                    // Enter pressed
+                    restart();
+                }
+            });
+        </script>
+    </body>
+</html>
